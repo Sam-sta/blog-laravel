@@ -46,9 +46,10 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function view($post)
     {
-        //
+        $post = Post::find($post);
+        return view('view', compact('post'));
     }
 
     /**
@@ -73,6 +74,9 @@ class PostController extends Controller
     public function destroy($post_id)
     {
         $post = Post::find($post_id);
+        if ($post->imager_url) {
+            Storage::delete('public/'.$post->image_url);
+        }
         $post->delete();
         return redirect()->route('posts.index');
     }
