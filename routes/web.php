@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -32,6 +33,11 @@ Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/{id}', [PostController::class, 'view'])->name('posts.view');
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 Route::get('/posts/delete/{id}', [PostController::class, 'destroy'])->name('posts.delete');
+
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/{id}', [CategoryController::class, 'view'])->name('categories.view');
+Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+Route::get('/categories/delete/{id}', [CategoryController::class, 'destroy'])->name('categories.delete');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
