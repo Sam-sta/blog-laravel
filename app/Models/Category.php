@@ -12,8 +12,14 @@ class Category extends Model
 
     protected $table = 'categories';
 
+    protected $fillable = ['name', 'description', 'user_id'];
+
     public function posts() 
     {
         return $this->HasMany('App\Post');
+    }
+
+    public function user() {
+        return $this->belongsTo('App\User');
     }
 }

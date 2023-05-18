@@ -27,12 +27,12 @@ Route::get('/home', function () {
 //PRIVATE ROUTES
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['admin'])->name('dashboard');
+})->withoutMiddleware('user')->name('dashboard');
 
-Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('/posts', [PostController::class, 'index'])->withoutMiddleware('user')->name('posts.index');
 Route::get('/posts/{id}', [PostController::class, 'view'])->name('posts.view');
-Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-Route::get('/posts/delete/{id}', [PostController::class, 'destroy'])->name('posts.delete');
+Route::post('/posts', [PostController::class, 'store'])->withoutMiddleware('user')->name('posts.store');
+Route::get('/posts/delete/{id}', [PostController::class, 'destroy'])->withoutMiddleware('user')->name('posts.delete');
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/categories/{id}', [CategoryController::class, 'view'])->name('categories.view');

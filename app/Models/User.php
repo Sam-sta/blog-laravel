@@ -47,4 +47,12 @@ class User extends Authenticatable
     {
         return $this->getAttribute('role') === $role;
     }
+
+    public function categories() {
+        return $this->HasMany('App\Category');
+    }
+
+    public function getId() {
+        return $this->getAttribute('id');
+    }
 }
