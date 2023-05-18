@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +15,8 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        return view('posts.index', compact('posts'));
+        $categories = Category::all();
+        return view('posts.index', compact('posts'), compact(('categories')));
     }
 
     /**
@@ -33,6 +35,7 @@ class PostController extends Controller
         $post = new Post();
         $post->title = $request->title;
         $post->body = $request->body;
+        $post->category = $request->category;
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $path = Storage::putFile('public/images', $file);

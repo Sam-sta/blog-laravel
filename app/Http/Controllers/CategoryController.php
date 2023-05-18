@@ -15,7 +15,12 @@ class CategoryController extends Controller
     {
         $user = Auth::user();
         $user_id = $user->getId();
-        $categories = Category::where('user_id', '=', $user_id)->get();
+        if($user->hasRole('Publicista')) {
+            $categories = Category::where('user_id', '=', $user_id)->get();
+        }
+        else {
+            $categories = Category::all();
+        }
         return view('categories.index', compact('categories'));
     }
 
