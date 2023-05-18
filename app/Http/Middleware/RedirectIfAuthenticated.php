@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +20,19 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                $user = Auth::user($guard);
+
+                if($user->hasRole('Administrador')) {
+                    return redirect(route('dashboard'));
+                }
+
+                else if($user->hasRole('Invitado')) {
+                    return redirect(route('home'));
+                }
+
+                else if($user->hasRole('Publicista')) {
+                    return redirect(route('posts.index'));
+                }
             }
         }
 

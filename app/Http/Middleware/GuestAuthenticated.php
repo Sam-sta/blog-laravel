@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class GuestAuthenticated
@@ -15,6 +16,18 @@ class GuestAuthenticated
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if(Auth::check()) {
+            $user = Auth::user();
+
+            if($user->hasRole('Administrador')) {
+                redirect(route('dashboard'));
+            }
+
+            else if ($user->hasRole('Invitado') ) {
+                return $next($request);
+            }
+        }
+
+        abort(403);
     }
 }

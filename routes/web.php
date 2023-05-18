@@ -17,17 +17,17 @@ use App\Models\Post;
 |
 */
 //PUBLIC ROUTES
-Route::get('/', function () {
+Route::get('/home', function () {
     return view('allPosts', [
         'posts' => Post::where('active', true)->get()
     ]);
-});
+})->name('home');
 
 
 //PRIVATE ROUTES
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['admin'])->name('dashboard');
 
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/{id}', [PostController::class, 'view'])->name('posts.view');
