@@ -49,7 +49,7 @@ class User extends Authenticatable
     }
 
     public function categories() {
-        return $this->HasMany('App\Category');
+        return $this->HasMany(Category::class);
     }
 
     public function getId() {
