@@ -69,7 +69,7 @@ class ApiCategoryController extends Controller
         $category->save();
         $data = [
             'message' => 'Category updated succesfully.',
-            'category'
+            'category' => $category
         ];
         return response()->json($data);
     }
