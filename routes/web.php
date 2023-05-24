@@ -32,11 +32,15 @@ Route::get('/dashboard', function () {
 Route::get('/posts', [PostController::class, 'index'])->withoutMiddleware('user')->name('posts.index');
 Route::get('/posts/{id}', [PostController::class, 'view'])->name('posts.view');
 Route::post('/posts', [PostController::class, 'store'])->withoutMiddleware('user')->name('posts.store');
+Route::get('/posts/edit/{id}', [PostController::class, 'edit'])->withoutMiddleware('user')->name('posts.edit');
+Route::post('/posts/update/{id}', [PostController::class, 'update'])->withoutMiddleware('user')->name('posts.update');
 Route::get('/posts/delete/{id}', [PostController::class, 'destroy'])->withoutMiddleware('user')->name('posts.delete');
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/categories/{id}', [CategoryController::class, 'view'])->name('categories.view');
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+Route::get('/categories/edit/{id}', [CategoryController::class, 'edit'])->withoutMiddleware('user')->name('categories.edit');
+Route::post('/categories/update/{id}', [CategoryController::class, 'update'])->withoutMiddleware('user')->name('categories.update');
 Route::get('/categories/delete/{id}', [CategoryController::class, 'destroy'])->name('categories.delete');
 
 Route::middleware('auth')->group(function () {

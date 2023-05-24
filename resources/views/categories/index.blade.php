@@ -107,6 +107,9 @@
                                     {{ $category->created_at }}
                                 </td>
                                 <td class="py-4 px-6 text-right">
+                                    <a href="{{ route('categories.edit', $category->id) }}" class="font-medium text-red-600 dark:text-red-500 hover:underline">Editar</a>
+                                </td>
+                                <td class="py-4 px-6 text-right">
                                     <a href="{{ route('categories.delete',$category->id) }}" class="font-medium text-red-600 dark:text-red-500 hover:underline">Borrar</a>
                                 </td>
                             </tr>

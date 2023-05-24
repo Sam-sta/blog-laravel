@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -14,9 +15,16 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $user = Auth::user();
+        $user_id = $user->getId();
+        if($user->hasRole('Publicista')) {
+            $posts = Post::where('user_id', '=', $user_id)->get();
+        }
+        else {
+            $posts = Post::all();
+        }
         $categories = Category::all();
-        return view('posts.index', compact('posts'), compact(('categories')));
+        return view('posts.index', compact('posts'), compact('categories'));
     }
 
     /**
@@ -33,8 +41,11 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $post = new Post();
+        $user = Auth::user();
+        $user_id = $user->getId();
         $post->title = $request->title;
         $post->body = $request->body;
+        $post->user_id = $user_id;
         $post->category = $request->category;
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -58,17 +69,23 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function edit($post_id)
     {
-        //
+        $categories = Category::all();
+        return view('posts.edit', ['post_id' => $post_id], compact('categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $post_id)
     {
-        //
+        $post = Post::find($post_id);
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->category = $request->category;
+        $post->save();
+        return redirect()->route('posts.index');
     }
 
     /**
